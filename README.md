@@ -4,7 +4,7 @@
 A lightweight, modular bash-based toolkit for WiFi reconnaissance, authentication testing, and WPA/WPA2 handshake capture & cracking. Designed for penetration testers and red teamers working in Linux environments.
 
 > [!WARNING] 
-> ⚠️ Legal Notice: This tool is intended for authorized security testing only. Unauthorized use against networks you do not own or have explicit permission to test is illegal.
+> Legal Notice: This tool is intended for authorized security testing only. Unauthorized use against networks you do not own or have explicit permission to test is illegal.
 ## 🛠️ Features
 
 - Scan nearby WiFi networks
@@ -82,10 +82,10 @@ A minimal `wordlist.txt` is included in `wordlists/`. For real-world use, replac
 gunzip /usr/share/wordlists/rockyou.txt.gz  # if available
 cp /usr/share/wordlists/rockyou.txt wordlists/wordlist.txt
 ```
-> ⚠️ Notes
+> Notes
 
-- The tool automatically enables monitor mode before capture/deauth and must be run with `sudo` (or as root).
-- After operations that use monitor mode (e.g., `-p`, `-d`), you may need to manually restore managed mode:
+> - The tool automatically enables monitor mode before capture/deauth and must be run with `sudo` (or as root).
+> - After operations that use monitor mode (e.g., `-p`, `-d`), you may need to manually restore managed mode:
 
 ```bash 
 sudo airmon-ng stop wlan0mon
