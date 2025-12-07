@@ -1,13 +1,17 @@
 #!/bin/bash
-
-source ../config/config.sh
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../utils/helpers.sh"
+source "$SCRIPT_DIR/../utils/monitor_mode.sh"
+source "$SCRIPT_DIR/../config/config.sh"
 
 BSSID="$1"
 CHANNEL="$2"
 
-# Put network interface in monitor mode
-sudo airmon-ng start $INTERFACE
+if [[ -z "$BSSID" || -z "$CHANNEL" ]]; then
+    error "Usage: capture_handshake.sh <BSSID> <CHANNEL>"
+fi
 
-# Capture handshake
-sudo airodump-ng --bssid $BSSID --channel $CHANNEL --write "${CAPTURE_DIR}handshake" $INTERFACE
+enable_monitor_mode
 
+log "Capturing handshake for AP: $BSSID on channel $CHANNEL"
+sudo airodump-ng --bssid "$BSSID" --channel "$CHANNEL" --write "${CAPTURE_DIR}handshake" "${INTERFACE}mon"

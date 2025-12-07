@@ -1,30 +1,45 @@
 #!/bin/bash
 
-source ./utils/helpers.sh
-source ./config/config.sh
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/utils/helpers.sh"
+source "$SCRIPT_DIR/config/config.sh"
 
-# Show help message
 show_help() {
     echo "Usage: ./wifi_tool.sh [options]"
-    echo "Options:"
-    echo "  -s               Scan for available networks"
-    echo "  -c SSID PASS     Connect to a WiFi network"
-    echo "  -p BSSID CHAN    Capture WPA/WPA2 handshake"
-    echo "  -d BSSID         Deauthenticate clients from AP"
-    echo "  -k HANDSHAKE     Crack captured handshake with wordlist"
-    echo "  -h               Show this help message"
+    echo
+    echo "  -s                 Scan WiFi networks"
+    echo "  -c SSID PASS       Connect to WiFi"
+    echo "  -p BSSID CHAN      Capture WPA/WPA2 handshake"
+    echo "  -d BSSID           Deauth clients"
+    echo "  -k FILE            Crack handshake"
+    echo "  -h                 Help"
 }
 
-# Parse options
-while getopts ":sc:p:d:k:h" opt; do
-    case ${opt} in
-        s ) ./src/scan.sh ;;
-        c ) ./src/connect.sh "$OPTARG" ;;
-        p ) ./src/capture_handshake.sh "$OPTARG" ;;
-        d ) ./src/deauth.sh "$OPTARG" ;;
-        k ) ./src/crack_password.sh "$OPTARG" ;;
-        h ) show_help ;;
-        \? ) echo "Invalid option: -$OPTARG" >&2; show_help; exit 1 ;;
-    esac
-done
+if [[ $# -eq 0 ]]; then
+    show_help
+    exit 0
+fi
 
+case "$1" in
+    -s)
+        ./src/scan.sh
+        ;;
+    -c)
+        ./src/connect.sh "$2" "$3"
+        ;;
+    -p)
+        ./src/capture_handshake.sh "$2" "$3"
+        ;;
+    -d)
+        ./src/deauth.sh "$2"
+        ;;
+    -k)
+        ./src/crack_password.sh "$2"
+        ;;
+    -h)
+        show_help
+        ;;
+    *)
+        error "Invalid command"
+        ;;
+esac

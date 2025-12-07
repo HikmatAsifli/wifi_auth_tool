@@ -1,8 +1,13 @@
 #!/bin/bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../utils/helpers.sh"
+source "$SCRIPT_DIR/../config/config.sh"
 
-source ../config/config.sh
+HANDSHAKE="$1"
 
-HANDSHAKE_FILE="$1"
+if [[ -z "$HANDSHAKE" ]]; then
+    error "Usage: crack_password.sh <handshake_file>"
+fi
 
-# Crack WPA/WPA2 password using wordlist
-sudo aircrack-ng "${CAPTURE_DIR}${HANDSHAKE_FILE}.cap" -w $WORDLIST
+log "Cracking handshake using wordlist..."
+sudo aircrack-ng "${CAPTURE_DIR}${HANDSHAKE}.cap" -w "$WORDLIST"
