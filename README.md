@@ -83,7 +83,6 @@ gunzip /usr/share/wordlists/rockyou.txt.gz  # if available
 cp /usr/share/wordlists/rockyou.txt wordlists/wordlist.txt
 ```
 > Notes
-
 > - The tool automatically enables monitor mode before capture/deauth and must be run with `sudo` (or as root).
 > - After operations that use monitor mode (e.g., `-p`, `-d`), you may need to manually restore managed mode:
 
